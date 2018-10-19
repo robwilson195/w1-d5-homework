@@ -74,11 +74,24 @@ def customer_can_afford_pet(customer, animal)
 end
 
 def sell_pet_to_customer(shop, pet, customer)
+  # Exit function if the pet is not available in that shop:
   return if pet == nil
+
+  # Exit function if the customer doesn't have enough money:
   return unless customer_can_afford_pet(customer, pet)
+
+  # Remove the pet from shop stock:
   remove_pet_by_name(shop, pet[:name])
+
+  # Put the cash in to the shop funds:
   add_or_remove_cash(shop, pet[:price])
+
+  # Increase the shops sell count by one:
   increase_pets_sold(shop,1)
+
+  # Put the pet into the customer's pet array:
   add_pet_to_customer(customer, pet)
+  
+  # Take the customer's cash away:
   remove_customer_cash(customer, pet[:price])
 end
